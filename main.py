@@ -10,9 +10,6 @@ s = {
     "tries": 0
 }
 
-def print():
-    web.div(text, classes=["output"])
-
 def start_game():
     s["scores"] = []
     s["highscore"] = None
@@ -74,7 +71,7 @@ def check_guess(guess):
 start_game()
 
 @when("click", "#input-button")
-def send_guess():
+def send_guess(event):
     command_input = web.page["input-field"]
     if not command_input:
         return
@@ -89,6 +86,6 @@ def send_guess():
         check_guess(guess)
 
 @when("keypress", "#input-field")
-def enter_guess():
+def enter_guess(event):
     if event.key == "Enter":
         send_guess()
