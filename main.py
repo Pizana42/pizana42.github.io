@@ -1,13 +1,12 @@
-
 import random
-from time import sleep
-from pyscript import web, when
+from pyscript import web, when # type: ignore
 
 s = {
-    "won_games": [],
+    "scores": [],
     "highscore": None,
     "num": None,
-    "tries": 0
+    "tries": 0,
+    "out": ""
 }
 
 def start_game():
@@ -15,6 +14,8 @@ def start_game():
     s["highscore"] = None
     s["num"] = None
     s["tries"] = 0
+    s["out"] = ""
+    web.page["output"].innerText = ""
     new_round()
 
 def new_round():
@@ -23,69 +24,68 @@ def new_round():
 
 def handle_input(command):
     if command in ("q", "quit", "exit"):
-        print("Dein Highscore war: ", s["highscore"])
-        print("Deine Scores waren:", ", ".join(s["scores"]))
+        s["out"] += "\n" + f"Dein Highscore war: {s['highscore']}"
+        s["out"] += "\n" + f"Deine Scores waren: {', '.join(s['scores'])}"
         exit()
     elif command in ("s", "score", "highscore"):
-        print("Dein aktueller Highscore ist:", s["highscore"])
-        print("Deine bisherigen Scores sind:", ", ".join(s["scores"]))
+        s["out"] += "\n" + f"Dein aktueller Highscore ist: {s['highscore']}"
+        s["out"] += "\n" + f"Deine bisherigen Scores sind: {', '.join(s['scores'])}"
     elif command in ("h", "hilfe", "help"):
-        print("Verfügbare Abkürzungen:\n  q  =  \"quit\"\n  s  =  \"score\"\n  h  =  \"hilfe\"\n  r  =  reset\n  c  =  \"cheat\"\nWarte was, es gibt cheats?")
+        s["out"] += "\n" + "Verfügbare Abkürzungen:\n  q  =  \"quit\"\n  s  =  \"score\"\n  h  =  \"hilfe\"\n  r  =  reset\n  c  =  \"cheat\"\nWarte was, es gibt cheats?"
     elif command in ("c", "cheat"):
-        print("Pssst... Willst du ne Acht kaufen?")
+        s["out"] += "\n" + "Pssst... Willst du ne Acht kaufen?"
         s["num"] = 8
-    elif command in ("r", "reset"):
-        print("Das Spiel wird zurückgesetzt", end="", flush=True)
-        for i in range(3):
-            print(".", end="", flush=True)
-            sleep(1)
-        print("")
+    elif command in ("r", "reset", "clear"):
         start_game()
     else:
-        global guess
         try:
-            guess = int(command)
+            return int(command)
         except ValueError:
-            print("Keine gültige Eingabe!")
+            s["out"] += "\n" + "Keine gültige Eingabe!"
 
 def check_guess(guess):
     if guess > s["num"]:
-        print("Meine Zahl ist kleiner als", guess)
+        s["out"] += "\n" + f"Meine Zahl ist kleiner als {guess}"
     elif guess < s["num"]:
-        print("Meine Zahl ist größer als", guess)
+        s["out"] += "\n" + f"Meine Zahl ist größer als {guess}"
     else:
-        print("Bravo! Du hast die Zahl erraten! Du hast", s["tries"], "Versuche gebraucht.")
+        s["out"] += "\n" + f"Bravo! Du hast die Zahl erraten! Du hast {s['tries']} Versuche gebraucht."
         s["scores"].append(str(s["tries"]))
         if s["highscore"] == None:
-            print(s["tries"], "ist dein erster Highscore. Kannst du ihn überbieten?")
+            s["out"] += "\n" + f"{s['tries']} ist dein erster Highscore. Kannst du ihn verbessern?"
             s["highscore"] = s["tries"]
         elif s["highscore"] > s["tries"]:
-            print("Damit hast du deinen alten Highscore von", s["highscore"], "übertroffen!")
+            s["out"] += "\n" + f"Damit hast du deinen alten Highscore von {s['highscore']} übertroffen!"
             s["highscore"] = s["tries"]
         else:
-            print("Dein Highscore bleibt weiterhin", s["highscore"])
+            s["out"] += "\n" + f"Dein Highscore bleibt weiterhin {s['highscore']}"
         new_round()
+
+def send_output():
+    s["out"] = "\n---" + s["out"]
+    output = web.page["output"]
+    output.innerText = s["out"] + output.innerText
+    web.page["input"].value = ""
+    s["out"] = ""
 
 
 
 start_game()
 
-@when("click", "#input-button")
-def send_guess(event):
-    command_input = web.page["input-field"]
-    if not command_input:
+@when("click", "button")
+def send_guess():
+    command = web.page["input"].value
+    if not command:
         return
 
-    guess = None
-    command = input("> ")
-
-    handle_input(command)
-
+    guess = handle_input(command)
     if guess is not None:
         s["tries"] += 1
         check_guess(guess)
 
-@when("keypress", "#input-field")
+    send_output()
+
+@when("keypress", "input")
 def enter_guess(event):
     if event.key == "Enter":
         send_guess()
