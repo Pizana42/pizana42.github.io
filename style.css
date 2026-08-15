@@ -47,15 +47,16 @@ button {
     position: absolute;
 }
 #theme {
-    height: min(2em, 8vh);
-    margin-left: 8px;
+    height: min(2em, 16vh);
     position: static;
+    padding-right: 16px;
+    padding-top: 2px;
 }
 #submit {
     top: 0;
     right: 0;
     height: 100%;
-    padding: 0.75%;
+    padding: 1%;
 }
 img {
     max-height: 100%;
