@@ -1,22 +1,25 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>Zahlenraten</title>
-        <link rel="stylesheet" href="https://pyscript.net/releases/2026.7.3/core.css">
-        <link rel="stylesheet" href="style.css">
-        <script type="module" src="https://pyscript.net/releases/2026.7.3/core.js"></script>
-    </head>
-    <body>
-        <h1>Zahlenraten</h1>
-        <p>Ich habe mir eine Zahl von 1 bis 100 ausgedacht. Rate meine Zahl!</p>
-        <p>Du kannst "quit" eingeben, um das Spiel zu beenden, "score" um deinen Score zu sehen, oder "hilfe" für eine Befehlsliste.</p>
-        <div id="input-wrapper">
-            <input autofocus type="text" id="input" placeholder="Rate meine Zahl!">
-            <button id="button"><img alt="Enter" src="key.png"></button>
-        </div>
-        <div id="output"></div>
-        <script type="mpy" src="main.py" config="pyscript.json"></script>
-    </body>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Zahlenraten</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://pyscript.net/releases/2026.7.3/core.js"></script>
+</head>
+
+<body>
+    <h1><button id="theme"><img alt="theme" src="theme.svg"></button>Zahlenraten</h1>
+    <p>Ich habe mir eine Zahl von 1 bis 100 ausgedacht. Rate meine Zahl!</p>
+    <p>Du kannst "reset" eingeben, um das Spiel zu zurückzusetzen, "score" um deinen Score zu sehen, oder "hilfe" für
+        eine Befehlsliste.</p>
+    <div id="input-wrapper">
+        <input autofocus type="text" id="input" placeholder="Rate meine Zahl!">
+        <button id="submit"><img alt="Enter" src="submit.svg"></button>
+    </div>
+    <div id="output"></div>
+    <script type="mpy" src="main.py" config="pyscript.json"></script>
+</body>
+
 </html>

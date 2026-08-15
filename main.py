@@ -6,14 +6,13 @@ s = {
     "highscore": None,
     "num": None,
     "tries": 0,
-    "out": ""
+    "out": "",
+    "theme": "dark"
 }
 
-def start_game():
-    s["scores"] = []
+def reset_game():
     s["highscore"] = None
-    s["num"] = None
-    s["tries"] = 0
+    s["scores"] = []
     s["out"] = ""
     web.page["output"].innerText = ""
     new_round()
@@ -23,20 +22,17 @@ def new_round():
     s["tries"] = 0
 
 def handle_input(command):
-    if command in ("q", "quit", "exit"):
-        s["out"] += "\n" + f"Dein Highscore war: {s['highscore']}"
-        s["out"] += "\n" + f"Deine Scores waren: {', '.join(s['scores'])}"
-        exit()
+    if command in ("r", "reset", "clear"):
+        reset_game()
     elif command in ("s", "score", "highscore"):
         s["out"] += "\n" + f"Dein aktueller Highscore ist: {s['highscore']}"
         s["out"] += "\n" + f"Deine bisherigen Scores sind: {', '.join(s['scores'])}"
     elif command in ("h", "hilfe", "help"):
-        s["out"] += "\n" + "Verfügbare Abkürzungen:\n  q  =  \"quit\"\n  s  =  \"score\"\n  h  =  \"hilfe\"\n  r  =  reset\n  c  =  \"cheat\"\nWarte was, es gibt cheats?"
+        s["out"] += "\n" + "Verfügbare Abkürzungen:\n  r  =  \"reset\"\n  s  =  \"score\"\n  h  =  \"hilfe\"\n  c  =  \"cheat\"\nWarte was, es gibt cheats?"
     elif command in ("c", "cheat"):
         s["out"] += "\n" + "Pssst... Willst du ne Acht kaufen?"
+        s["tries"] = 101
         s["num"] = 8
-    elif command in ("r", "reset", "clear"):
-        start_game()
     else:
         try:
             return int(command)
@@ -45,21 +41,30 @@ def handle_input(command):
 
 def check_guess(guess):
     if guess > s["num"]:
-        s["out"] += "\n" + f"Meine Zahl ist kleiner als {guess}"
+        s["out"] += "\n" + f"Meine Zahl ist kleiner als {guess}."
     elif guess < s["num"]:
-        s["out"] += "\n" + f"Meine Zahl ist größer als {guess}"
+        s["out"] += "\n" + f"Meine Zahl ist größer als {guess}."
     else:
-        s["out"] += "\n" + f"Bravo! Du hast die Zahl erraten! Du hast {s['tries']} Versuche gebraucht."
-        s["scores"].append(str(s["tries"]))
-        if s["highscore"] == None:
-            s["out"] += "\n" + f"{s['tries']} ist dein erster Highscore. Kannst du ihn verbessern?"
-            s["highscore"] = s["tries"]
-        elif s["highscore"] > s["tries"]:
-            s["out"] += "\n" + f"Damit hast du deinen alten Highscore von {s['highscore']} übertroffen!"
-            s["highscore"] = s["tries"]
+        if s["tries"] > 100:
+            s["out"] += "\n" + f"Du hast die Zahl erraten. Aber auf eine eher traurige Art und Weise."
+            s["out"] += "\n" + f"Diese Runde wird auf jeden Fall nicht als Highscore in die Geschichte eingehen!"
+        elif s["tries"] == 1:
+            s["out"] += "\n" + f"Wie bitte? Du hast die Zahl {s['num']} in nur einem Versuch erraten? Mentalist!"
+            apply_score()
         else:
-            s["out"] += "\n" + f"Dein Highscore bleibt weiterhin {s['highscore']}"
-        new_round()
+            s["out"] += "\n" + f"Bravo! Du hast die Zahl {s['num']} erraten und {s['tries']} Versuche gebraucht!"
+            apply_score()
+
+def apply_score():
+    if s["highscore"] == None:
+        s["out"] += "\n" + f"{s['tries']} ist dein erster Highscore. Kannst du ihn verbessern?"
+    elif s["highscore"] > s["tries"]:
+        s["out"] += "\n" + f"Damit hast du deinen alten Highscore von {s['highscore']} verbessert!"
+    else:
+        s["out"] += "\n" + f"Dein Highscore bleibt weiterhin {s['highscore']}."
+    s["scores"].append(str(s["tries"]))
+    s["highscore"] = min(s["scores"])
+    new_round()
 
 def send_output():
     s["out"] = "\n---" + s["out"]
@@ -70,9 +75,11 @@ def send_output():
 
 
 
-start_game()
 
-@when("click", "button")
+
+reset_game()
+
+@when("click", "#submit")
 def send_guess():
     command = web.page["input"].value
     if not command:
@@ -89,3 +96,24 @@ def send_guess():
 def enter_guess(event):
     if event.key == "Enter":
         send_guess()
+
+
+
+
+
+@when("click", "#theme")
+def switch_theme():
+    body = web.page.body
+    field = web.page["input"]
+    if s["theme"] == "light":
+        body.style["background-color"] = "#181a1b"
+        field.style["background-color"] = "#232627"
+        body.style["color"] = "#e8e6e3"
+        field.style["color"] = "#e8e6e3"
+        s["theme"] = "dark"
+    else:
+        body.style["background-color"] = "#ffffff"
+        field.style["background-color"] = "#ffffff"
+        body.style["color"] = "#000000"
+        field.style["color"] = "#000000"
+        s["theme"] = "light"
