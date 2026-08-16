@@ -1,6 +1,8 @@
 import random
 from pyscript import web, when # type: ignore
 
+difficulty = 100
+
 s = {
     "scores": [],
     "highscore": None,
@@ -18,20 +20,20 @@ def reset_game():
     new_round()
 
 def new_round():
-    s["num"] = random.randint(1,100)
+    s["num"] = random.randint(1,difficulty)
     s["tries"] = 0
 
 def handle_input(command):
-    if command in ("r", "reset", "clear"):
-        reset_game()
-    elif command in (",", "s", "score", "highscore"):
+    if command in ("001", ".1", ".", "h", "hilfe", "help"):
+        s["out"] += "\n" + "Verfügbare Abkürzungen:\n001 = hilfe\n002 = score\n003 = reset \n004 = cheat\nWarte was, es gibt cheats?"
+    elif command in ("002", ".2", ",", "s", "score", "highscore"):
         s["out"] += "\n" + f"Dein aktueller Highscore ist: {s['highscore']}"
         s["out"] += "\n" + f"Deine bisherigen Scores sind: {', '.join(str(score) for score in s['scores'])}"
-    elif command in (".", "h", "hilfe", "help"):
-        s["out"] += "\n" + "Verfügbare Abkürzungen:\n  s  =  \"score\"\n  r  =  \"reset\"\n  h  =  \"hilfe\"\n  c  =  \"cheat\"\nWarte was, es gibt cheats?"
-    elif command in ("-", "c", "cheat"):
+    elif command in ("003", ".3", "r", "reset", "clear"):
+        reset_game()
+    elif command in ("004", ".4", "-", "c", "cheat"):
         s["out"] += "\n" + "Pssst... Willst du ne Acht kaufen?"
-        s["tries"] = 101
+        s["tries"] = difficulty + 1
         s["num"] = 8
     else:
         try:
@@ -45,18 +47,19 @@ def check_guess(guess):
     elif guess < s["num"]:
         s["out"] += "\n" + f"Meine Zahl ist größer als {guess}."
     else:
-        if s["tries"] > 100:
+        if s["tries"] > difficulty:
             s["out"] += "\n" + f"Du hast die Zahl erraten. Aber auf eine eher traurige Art und Weise."
             s["out"] += "\n" + f"Diese Runde wird auf jeden Fall nicht als Highscore in die Geschichte eingehen!"
-            new_round()
         elif s["tries"] == 1:
             s["out"] += "\n" + f"Wie bitte? Du hast die Zahl {s['num']} in nur einem Versuch erraten? Mentalist!"
             apply_score()
-            new_round()
         else:
             s["out"] += "\n" + f"Bravo! Du hast die Zahl {s['num']} erraten und {s['tries']} Versuche gebraucht!"
             apply_score()
-            new_round()
+        new_round()
+    if guess > difficulty or guess < 1:
+        s["out"] += "\n" + "Aber das zählen wir mal nicht..."
+        s["tries"] -= 1
 
 def apply_score():
     if s["highscore"] == None:

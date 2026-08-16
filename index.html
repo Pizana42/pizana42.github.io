@@ -10,14 +10,21 @@
 </head>
 
 <body>
-    <h1><button id="theme"><img alt="theme" src="theme.svg"></button>Zahlenraten</h1>
+    <h1><button id="theme">
+            <svg width="128" height="128" viewBox="0 0 128 128">
+                <path id="path1" style="fill:#ffffff;stroke-width:4"
+                    d="M 128,64 A 64,64 0 0 1 64,128 64,64 0 0 1 0,64 64,64 0 0 1 64,0 64,64 0 0 1 128,64 Z" />
+                <path id="path2" style="fill:#000000;stroke:#000000;stroke-width:8;stroke-linejoin:round"
+                    d="m 112,64 c 0,26.509668 -21.490332,48 -48,48 V 16 c 26.509668,0 48,21.490332 48,48 z" />
+            </svg>
+        </button>Zahlenraten</h1>
     <p>Ich habe mir eine Zahl von 1 bis 100 ausgedacht. Rate meine Zahl!</p>
-    <p>Befehle: "score", "reset", "hilfe".</p>
+    <p>Befehle: score, reset, hilfe (001)</p>
     <div id="input-wrapper">
         <input autofocus type="text" inputmode="decimal" id="input" placeholder="Rate meine Zahl!">
         <button id="submit"><img alt="Enter" src="submit.svg"></button>
     </div>
-    <div id="output"></div>
+    <p id="output"></p>
     <script type="mpy" src="main.py" config="pyscript.json"></script>
 </body>
 
