@@ -48,12 +48,15 @@ def check_guess(guess):
         if s["tries"] > 100:
             s["out"] += "\n" + f"Du hast die Zahl erraten. Aber auf eine eher traurige Art und Weise."
             s["out"] += "\n" + f"Diese Runde wird auf jeden Fall nicht als Highscore in die Geschichte eingehen!"
+            new_round()
         elif s["tries"] == 1:
             s["out"] += "\n" + f"Wie bitte? Du hast die Zahl {s['num']} in nur einem Versuch erraten? Mentalist!"
             apply_score()
+            new_round()
         else:
             s["out"] += "\n" + f"Bravo! Du hast die Zahl {s['num']} erraten und {s['tries']} Versuche gebraucht!"
             apply_score()
+            new_round()
 
 def apply_score():
     if s["highscore"] == None:
@@ -64,7 +67,6 @@ def apply_score():
         s["out"] += "\n" + f"Dein Highscore bleibt weiterhin {s['highscore']}."
     s["scores"].append(s["tries"])
     s["highscore"] = min(s["scores"])
-    new_round()
 
 def send_output():
     s["out"] = "\n---" + s["out"]
