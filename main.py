@@ -24,14 +24,14 @@ def new_round():
     s["tries"] = 0
 
 def handle_input(command):
-    if command in ("001", ".1", ".", "h", "hilfe", "help"):
-        s["out"] += "\n" + "Verfügbare Abkürzungen:\n001 = hilfe\n002 = score\n003 = reset \n004 = cheat\nWarte was, es gibt cheats?"
-    elif command in ("002", ".2", ",", "s", "score", "highscore"):
+    if command in (".1", ".", "h", "hilfe", "help"):
+        s["out"] += "\n" + "Verfügbare Abkürzungen:\n.1 = hilfe\n.2 = score\n.3 = reset \n.4 = cheat\nWarte was, es gibt cheats?"
+    elif command in (".2", ",", "s", "score", "highscore"):
         s["out"] += "\n" + f"Dein aktueller Highscore ist: {s['highscore']}"
         s["out"] += "\n" + f"Deine bisherigen Scores sind: {', '.join(str(score) for score in s['scores'])}"
-    elif command in ("003", ".3", "r", "reset", "clear"):
+    elif command in (".3", "r", "reset", "clear"):
         reset_game()
-    elif command in ("004", ".4", "-", "c", "cheat"):
+    elif command in (".4", "-", "c", "cheat"):
         s["out"] += "\n" + "Pssst... Willst du ne Acht kaufen?"
         s["tries"] = difficulty + 1
         s["num"] = 8
@@ -95,26 +95,23 @@ def send_guess():
 
     send_output()
 
+
+
 @when("keypress", "input")
 def enter_guess(event):
     if event.key == "Enter":
         send_guess()
 
-
-
 @when("click", "#theme")
 def switch_theme():
-    body = web.page.body
-    field = web.page["input"]
+    style = web.page.html.style
     if s["theme"] == "light":
-        body.style["background-color"] = "#181a1b"
-        field.style["background-color"] = "#232627"
-        body.style["color"] = "#e8e6e3"
-        field.style["color"] = "#e8e6e3"
+        style["background-color"] = "#181a1b"
+        style["--input-bg-color"] = "#232627"
+        style["color"] = "#e8e6e3"
         s["theme"] = "dark"
     else:
-        body.style["background-color"] = "#ffffff"
-        field.style["background-color"] = "#ffffff"
-        body.style["color"] = "#000000"
-        field.style["color"] = "#000000"
+        style["background-color"] = "#ffffff"
+        style["--input-bg-color"] = "#ffffff"
+        style["color"] = "#000000"
         s["theme"] = "light"

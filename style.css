@@ -1,20 +1,42 @@
 html {
-    font-size: clamp(1rem, 1vw, 2rem);;
-}
-body {
+    font-size: clamp(1rem, 1vw, 2rem);
     font-family: Arial, sans-serif;
-    background-color: #181a1b;
-    color: #e8e6e3;
     text-align: center;
     overflow-wrap: break-word;
+    background-color: #181a1b;
+    color: #e8e6e3;
+    --input-bg-color: #232627;
+    --input-color: #e8e6e3;
+}
+button {
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    background-color: transparent;
+}
+svg {
+    width: 100%;
+    height: 100%;
+    display: block
+}
+
+
+
+#heading {
+    display: flex;
+    justify-content: center;
+}
+#theme, #spacer {
+    position: static;
+    width: 2rem;
 }
 h1 {
-    margin: min(24px,4%);
+    margin: min(12px, 4%);
     font-size: 2rem;
 }
 p {
-    margin: min(12px,4%);
-    font-size: 1rem
+    margin: min(12px, 4%);
+    font-size: 1rem;
 }
 
 
@@ -23,7 +45,7 @@ p {
     position: relative;
     display: flex;
     margin: auto;
-    margin-top: 1rem;
+    margin-top: 2rem;
     width: clamp(max(18rem, 12vh), 60vw, 1920px);
     height: auto;
 }
@@ -34,36 +56,16 @@ input {
     padding: min(3vh, 32px) min(6vh, 64px);
     border-radius: 256px;
     border: none;
-    color: #e8e6e3;
-    background-color: #232627;
+    color: inherit;
+    background-color: var(--input-bg-color);
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.3);
 }
 input:focus {
     outline: 1px solid #3584e4;
-}
-
-
-
-button {
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    background-color: transparent;
-}
-#theme {
-    position: static;
-    height: 2rem;
-    padding-right: 1rem;
-    padding-top: 0.4rem;
 }
 #submit {
     top: 0;
     right: 0;
     height: 100%;
     padding: 6px;
-}
-img, svg {
-    width: 100%;
-    height: 100%;
-    display: block
 }

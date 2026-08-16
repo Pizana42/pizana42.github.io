@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
 
 <head>
     <meta charset="utf-8">
@@ -10,22 +10,35 @@
 </head>
 
 <body>
-    <h1><button id="theme">
-            <svg width="128" height="128" viewBox="0 0 128 128">
-                <path id="path1" style="fill:#ffffff;stroke-width:4"
-                    d="M 128,64 A 64,64 0 0 1 64,128 64,64 0 0 1 0,64 64,64 0 0 1 64,0 64,64 0 0 1 128,64 Z" />
-                <path id="path2" style="fill:#000000;stroke:#000000;stroke-width:8;stroke-linejoin:round"
+    <div id="heading">
+        <button id="theme">
+            <svg aria-label="theme" width="128" height="128" viewBox="0 0 128 128">
+                <path style="fill:#ffffff"
+                    d=" M 128,64 A 64,64 0 0 1 64,128 64,64 0 0 1 0,64 64,64 0 0 1 64,0 64,64 0 0 1 128,64 Z" />
+                <path style="fill:#000000;stroke:#000000;stroke-width:8;stroke-linejoin:round"
                     d="m 112,64 c 0,26.509668 -21.490332,48 -48,48 V 16 c 26.509668,0 48,21.490332 48,48 z" />
             </svg>
-        </button>Zahlenraten</h1>
+        </button>
+        <h1>
+            Zahlenraten
+        </h1>
+        <div id="spacer"></div>
+    </div>
     <p>Ich habe mir eine Zahl von 1 bis 100 ausgedacht. Rate meine Zahl!</p>
-    <p>Befehle: score, reset, hilfe (001)</p>
+    <p>Befehle: score, reset, hilfe (.1)</p>
     <div id="input-wrapper">
         <input autofocus type="text" inputmode="decimal" id="input" placeholder="Rate meine Zahl!">
-        <button id="submit"><img alt="Enter" src="submit.svg"></button>
+        <button id="submit">
+            <svg aria-label="submit" width="128" height="128" viewBox="0 0 128 128">
+                <path style="fill:#6a6864"
+                    d="M 64,0 A 64,64 0 0 0 0,64 64,64 0 0 0 64,128 64,64 0 0 0 128,64 64,64 0 0 0 64,0 Z m 0,8 A 56,56 0 0 1 120,64 56,56 0 0 1 64,120 56,56 0 0 1 8,64 56,56 0 0 1 64,8 Z" />
+                <path style="fill:#6a6864"
+                    d="m 83.726272,39.87007 c -1.594176,0 -2.877756,1.283582 -2.877756,2.877758 V 63.138796 H 60.275792 v -9.422308 c 0,-0.883852 -0.500276,-1.691456 -1.291984,-2.084388 -0.791364,-0.39276 -1.724728,-0.2868 -2.440684,0.2308 L 37.573476,65.5771 c -4.236234,3.062608 -4.23813,5.288684 0,8.357276 l 18.964352,13.731016 c 1.559956,1.129468 3.737964,0.07808 3.737964,-1.847828 V 76.1582 h 30.451344 c 1.594176,0 2.877276,-1.283576 2.877276,-2.877752 V 42.747832 c 0,-1.594176 -1.2831,-2.877758 -2.877276,-2.877758 z" />
+            </svg>
+        </button>
     </div>
     <p id="output"></p>
-    <script type="mpy" src="main.py" config="pyscript.json"></script>
+    <script type="mpy" src="main.py" config='{"packages": ["random"]}'></script>
 </body>
 
 </html>
