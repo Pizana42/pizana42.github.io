@@ -3,6 +3,7 @@ body {
     background-color: #181a1b;
     color: #e8e6e3;
     text-align: center;
+    overflow-wrap: break-word;
 }
 h1 {
     margin: min(24px,4%);
