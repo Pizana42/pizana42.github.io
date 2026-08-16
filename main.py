@@ -26,7 +26,7 @@ def handle_input(command):
         reset_game()
     elif command in (",", "s", "score", "highscore"):
         s["out"] += "\n" + f"Dein aktueller Highscore ist: {s['highscore']}"
-        s["out"] += "\n" + f"Deine bisherigen Scores sind: {', '.join(str(score) for score in s['scores']))}"
+        s["out"] += "\n" + f"Deine bisherigen Scores sind: {', '.join(str(score) for score in s['scores'])}"
     elif command in (".", "h", "hilfe", "help"):
         s["out"] += "\n" + "Verfügbare Abkürzungen:\n  s  =  \"score\"\n  r  =  \"reset\"\n  h  =  \"hilfe\"\n  c  =  \"cheat\"\nWarte was, es gibt cheats?"
     elif command in ("-", "c", "cheat"):
