@@ -24,12 +24,12 @@ def new_round():
 def handle_input(command):
     if command in ("r", "reset", "clear"):
         reset_game()
-    elif command in ("s", "score", "highscore"):
+    elif command in (",", "s", "score", "highscore"):
         s["out"] += "\n" + f"Dein aktueller Highscore ist: {s['highscore']}"
         s["out"] += "\n" + f"Deine bisherigen Scores sind: {', '.join(s['scores'])}"
-    elif command in ("h", "hilfe", "help"):
+    elif command in (".", "h", "hilfe", "help"):
         s["out"] += "\n" + "Verfügbare Abkürzungen:\n  s  =  \"score\"\n  r  =  \"reset\"\n  h  =  \"hilfe\"\n  c  =  \"cheat\"\nWarte was, es gibt cheats?"
-    elif command in ("c", "cheat"):
+    elif command in ("-", "c", "cheat"):
         s["out"] += "\n" + "Pssst... Willst du ne Acht kaufen?"
         s["tries"] = 101
         s["num"] = 8
@@ -58,13 +58,12 @@ def check_guess(guess):
 def apply_score():
     if s["highscore"] == None:
         s["out"] += "\n" + f"{s['tries']} ist dein erster Highscore. Kannst du ihn verbessern?"
-        s["highscore"] = s['tries']
     elif s["highscore"] > s["tries"]:
         s["out"] += "\n" + f"Damit hast du deinen alten Highscore von {s['highscore']} verbessert!"
-        s["highscore"] = s['tries']
     else:
         s["out"] += "\n" + f"Dein Highscore bleibt weiterhin {s['highscore']}."
-    s["scores"].append(str(s["tries"]))
+    s["scores"].append(s["tries"])
+    s["highscore"] = min(s["scores"])
     new_round()
 
 def send_output():
